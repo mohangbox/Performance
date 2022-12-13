@@ -1,0 +1,21 @@
+{
+    "info": {
+        "origin": "merchandising",
+        "mimeType": "tiff",
+        "category": "b2b",
+        "originFileCreationTS": "2022-10-25T07:23:35.761Z",
+        "originFileRequestTS": "2022-10-26T07:23:35.761Z"
+    },
+    "filemetadata": {
+        "fileName": "Automation_TIFF_merch_b2b_0002",
+        "dealerId": "120489",
+        "dealerName": "AutomationTesting",
+        "documentType": "WRS",
+        "dealerIdentifier": "Testing_Automation",
+        "personIdentifier": "Automation_Testing",
+        "representativeName": "Representative_Name",
+        "repId": "12346",
+        "expirationDate": "2023-12-31T23:59:59.999Z",
+        "corporateCopyDate": "2022-11-04T07:23:35.761Z"
+    }
+}
