@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="TestData_Preparation_Download_Services" enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">824</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">10</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+        <stringProp name="TestPlan.comments">Write the error in the csv file to find without error data (Disable this thread when run reals execution)</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="TJS Download-Data" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">&lt;Envelope xmlns=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+    &lt;Body&gt;&#xd;
+        &lt;ImageRequest xmlns=&quot;http://filenet.carmax.org/services/transactionjacket&quot;&gt;&#xd;
+            &lt;imageRequest&gt;&#xd;
+                &lt;locNum&gt;${Loc_num}&lt;/locNum&gt;&#xd;
+                &lt;dmsImageId&gt;${dms_image_id}&lt;/dmsImageId&gt;&#xd;
+                &lt;corpCopyYear&gt;${year}&lt;/corpCopyYear&gt;&#xd;
+                 &lt;operation&gt;100&lt;/operation&gt;&#xd;
+                &lt;userName&gt;9503277&lt;/userName&gt;  &#xd;
+                &lt;password&gt;sM@908xa&lt;/password&gt;&#xd;
+            &lt;/imageRequest&gt;&#xd;
+        &lt;/ImageRequest&gt;&#xd;
+    &lt;/Body&gt;&#xd;
+&lt;/Envelope&gt;</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">filenetqa.carmax.org</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/TransactionJacketService/ws/TransactionJacket.wsdl</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">SOAPAction</stringProp>
+                <stringProp name="Header.value">&quot;http://filenet.carmax.org/services/transactionjacket&quot;</stringProp>
+              </elementProp>
+              <elementProp name="&apos;Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">text/xml</stringProp>
+              </elementProp>
+              <elementProp name="Cookie" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">LtpaToken2=14WmQTvCZbgg0Mu8IVd6wbHTPfzC2XqLQkI42y4FsxEMCZFw+8TVaOHW3MeKlubXXF7dily14NwTOLTGjcpmiL9T7+AuoKhmDqRk1fmu3wAXEZsA5t4/yv/xoBAR5XENoUZFPJCaEbkEN1MI0FuBhYt6AvUakqM7p+kRDJBelrKpp3OdTqLl7/X+AHTMFpyXxglmf7+9ykXHZJEx/bYAh3L0v0YSw5AI8Sz62cw/FjlGmSq+OtlRGY5D4OYdv1I1nHqpGkKOFKFs+B3LRf8uwwY7OaaHDcK/9a9r0GYMJ6La3gRSpTusda897rKaz+WpKTAPIgf67iiA8NnXVeaQkrf9YddPdMHLXMVKd3rCtMeSGS3+b9Vs714JhAde2Che7j28v4ZIEmW3OlYzqe5Kah2dzADzW8NAllYbqDtyCzbyHdl/dO3RvR5qmxLtn4GefUq3FM0F+R5F48T/fEsrywX2kQ8UTFkxbwQRTFuNT4FbN3YlPGE1rkiKmyHQ5uav0jI3kknhQhEznV+Tz971IUfvcfD4bWwCa+xBfwkXgjigUEK8ubIJ/r78OvXc0Ahgs6G4fJ7EWzTGcROPPlSvQbhSQM2r04iXOxramqAEmP4+IiQbLGBgVaET7RNezyG2dUNLOB9MySpn9oVojvIjqz0iAqhSCZ+tq/vwmlHNLlM9LYyYVtjNEzNPenZX/HAz/GkqXiGmwLRaS5V8amRgxdL8LC6cVXbcIZGUOHaK/wNVwTnUNI4QsPjl/FVKnPNz</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+            <stringProp name="filename">D:/Loadtest_Script_Development/EDOCUploadAndTJSDownload/qa/TestData/data_07_Oct.csv</stringProp>
+            <stringProp name="fileEncoding"></stringProp>
+            <stringProp name="variableNames">Loc_num,year,dms_image_id</stringProp>
+            <boolProp name="ignoreFirstLine">true</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-959827402">\\CLBFLNFSSQ21FS\</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="false">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">import java.io.*;
+File f=new File(&quot;D:\\Loadtest_Script_Development\\EDOCUploadAndTJSDownload\\qa\\TestData\\testResult.csv&quot;);
+FileWriter fw=new FileWriter(f);
+BufferedWriter bw=new BufferedWriter(fw);
+var rc = prev.getResponseCode();
+if(rc.equals(&quot;200&quot;)){
+ bw.write(&quot;test is passed&quot;);
+}
+else{
+ bw.write(&quot;test is failed&quot;);
+}
+bw.close();
+fw.close();</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer-Write Error in CSV file" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename">D:\Loadtest_Script_Development\EDOCUploadAndTJSDownload\qa\TestData\ErrorDateGenrates.csv</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Download_Services-Run" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">13500</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">900</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">10</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="TJS Download" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">&lt;Envelope xmlns=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+    &lt;Body&gt;&#xd;
+        &lt;ImageRequest xmlns=&quot;http://filenet.carmax.org/services/transactionjacket&quot;&gt;&#xd;
+            &lt;imageRequest&gt;&#xd;
+                &lt;locNum&gt;${Loc_num}&lt;/locNum&gt;&#xd;
+                &lt;dmsImageId&gt;${dms_image_id}&lt;/dmsImageId&gt;&#xd;
+                &lt;corpCopyYear&gt;${year}&lt;/corpCopyYear&gt;&#xd;
+                 &lt;operation&gt;100&lt;/operation&gt;&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+                &lt;userName&gt;9503277&lt;/userName&gt;  &#xd;
+                &#xd;
+                &lt;password&gt;sM@909xa&lt;/password&gt;&#xd;
+            &lt;/imageRequest&gt;&#xd;
+        &lt;/ImageRequest&gt;&#xd;
+    &lt;/Body&gt;&#xd;
+&lt;/Envelope&gt;</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">filenetqa.carmax.org</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/TransactionJacketService/ws/TransactionJacket.wsdl</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">SOAPAction</stringProp>
+                <stringProp name="Header.value">&quot;http://filenet.carmax.org/services/transactionjacket&quot;</stringProp>
+              </elementProp>
+              <elementProp name="&apos;Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">text/xml</stringProp>
+              </elementProp>
+              <elementProp name="Cookie" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">LtpaToken2=14WmQTvCZbgg0Mu8IVd6wbHTPfzC2XqLQkI42y4FsxEMCZFw+8TVaOHW3MeKlubXXF7dily14NwTOLTGjcpmiL9T7+AuoKhmDqRk1fmu3wAXEZsA5t4/yv/xoBAR5XENoUZFPJCaEbkEN1MI0FuBhYt6AvUakqM7p+kRDJBelrKpp3OdTqLl7/X+AHTMFpyXxglmf7+9ykXHZJEx/bYAh3L0v0YSw5AI8Sz62cw/FjlGmSq+OtlRGY5D4OYdv1I1nHqpGkKOFKFs+B3LRf8uwwY7OaaHDcK/9a9r0GYMJ6La3gRSpTusda897rKaz+WpKTAPIgf67iiA8NnXVeaQkrf9YddPdMHLXMVKd3rCtMeSGS3+b9Vs714JhAde2Che7j28v4ZIEmW3OlYzqe5Kah2dzADzW8NAllYbqDtyCzbyHdl/dO3RvR5qmxLtn4GefUq3FM0F+R5F48T/fEsrywX2kQ8UTFkxbwQRTFuNT4FbN3YlPGE1rkiKmyHQ5uav0jI3kknhQhEznV+Tz971IUfvcfD4bWwCa+xBfwkXgjigUEK8ubIJ/r78OvXc0Ahgs6G4fJ7EWzTGcROPPlSvQbhSQM2r04iXOxramqAEmP4+IiQbLGBgVaET7RNezyG2dUNLOB9MySpn9oVojvIjqz0iAqhSCZ+tq/vwmlHNLlM9LYyYVtjNEzNPenZX/HAz/GkqXiGmwLRaS5V8amRgxdL8LC6cVXbcIZGUOHaK/wNVwTnUNI4QsPjl/FVKnPNz</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+            <stringProp name="filename">D:/Loadtest_Script_Development/EDOCUploadAndTJSDownload/qa/TestData/TiffDMSId_Save.csv</stringProp>
+            <stringProp name="fileEncoding"></stringProp>
+            <stringProp name="variableNames">Loc_num,year,dms_image_id</stringProp>
+            <boolProp name="ignoreFirstLine">true</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="46041891">.tiff</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="userName" elementType="Argument">
+            <stringProp name="Argument.name">userName</stringProp>
+            <stringProp name="Argument.value">9503277</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="password" elementType="Argument">
+            <stringProp name="Argument.name">password</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="tiff-Upload" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">10</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Tiff_File_Upload" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">import com.create.test.java.io.File;
+
+
+//int iuid = Integer.parseInt(&quot;${__time(mmssSSS)}&quot;) + Integer.parseInt(&quot;${__threadNum}&quot;);
+//log.info(&quot;iuid ***:&quot; + iuid);
+//String suid = Integer.toString(iuid);
+//log.info(suid);
+//vars.put(&quot;vuid&quot;,suid);
+//log.info(&quot;vuid ***:&quot; + vars.get(&quot;vuid&quot;));
+
+//FileWriter fWriter = new FileWriter(&quot;D:/Loadtest_Script_Development/EDOCUploadAndTJSDownload/data.csv&quot;, true);
+//BufferedWriter buff = new BufferedWriter(fWriter);
+
+//buff.write(&quot;9999,&quot;+&quot;2022,&quot;+suid+&quot;\n&quot;);
+
+//buff.close();
+//fWriter.close();
+
+//String dms_id = vars.get(&quot;dms_id&quot;);
+//log.info(&quot;I&apos;m Main value : &quot; + dms_id);
+</stringProp>
+          <stringProp name="scriptLanguage">java</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Tiff_File_Upload" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">//***************************
+//Config details:
+//1. All the path to be updated correctly.
+//2. Assign MIN, MEDIAN, MAXIMUM to &quot;tiffFileCreationtype&quot; based on tiff file Creation and size.
+//***************************
+
+package com.create.test;
+
+import com.create.test.java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Properties;
+import java.util.Random;
+import java.util.stream.IntStream;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import java.lang.reflect.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
+import java.io.*;    
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.jmeter.util.JMeterUtils;
+
+	
+int maxfileint = 1;
+
+//Locate current script path
+//String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+//String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+//vars.put(&quot;testPlanFileDir&quot;, testPlanFileDir);
+
+
+
+String tiffSampleCompletePath = &quot;\\\\clbflncolq22\\edoc\\2022_test_tiff_edoc_01_MEDIAN.tiff&quot;;    //MIN, MEDIAN, MAXIMUM; i.e., Min file size- &gt;98kb, Median file size &gt;250kb, Max file size- &gt; 590kb
+String tiffdestinationpartial = &quot;\\\\CLBFLNFSSQ21FS\\T3EDocStaging01\\tiff\\&quot;;
+String xmlfilepartialpath = &quot;\\\\CLBFLNFSSQ21FS\\T3EDocStaging01\\xml_tiff\\new\\&quot;;
+String finalDestinationPath = &quot;\\\\CLBFLNFSSQ21FS\\T3EDocStaging01\\xml_tiff\\&quot;;
+//String csvFileWritePath	= 	testPlanFileDir + &quot;\\TestData\\TiffDMSId_Save.csv&quot;;
+
+File tiffSampleCompletePathFile = new File(tiffSampleCompletePath);
+
+Random random = new Random();
+
+for (int i = 1; i &lt;= maxfileint; i++) {
+
+    
+    //dmsimageid 
+
+  	int randomint = random.nextInt(8999)+1000;				//6 digits ramdon number 
+  	String dms_id = &quot;99&quot; + randomint.toString();				//For testing purpose appending with 99 for uniqueness identification
+	vars.put(&quot;dms_id&quot;, dms_id);
+  	log.info(&quot;dms_id :&quot; + dms_id);
+  	
+	
+    //location num  for [ONLY for QA/DEV]
+    //int randomloc = random.nextInt(19)+9980;				//For testing the store number starts from 9980 to 9999 for QA/DEV
+    //String loc_num = randomloc.toString();
+
+    //location num for [ONLY for PROD] For production The store number should be 9999
+    String loc_num = &quot;9999&quot;;
+    vars.put(&quot;loc_num&quot;, loc_num);
+    log.info(&quot;loc_num :&quot; + loc_num);
+
+    //locstate
+    String stateName = &quot;VA&quot;;								//QA, DV, PR
+
+    //referencenum
+    int randomref = random.nextInt(8999)+1000;				//6 digits ramdon number -  random.nextInt(899999)+100000; 
+    String referenceNo = &quot;99&quot; + randomref.toString();		     //For testing purpose appending with 99 for uniqueness identification
+   				
+
+    //Image description
+    String imagefiledec = &quot;Performance&quot;;					//Performance
+
+    //Corpcopydate
+    Date date = new Date();
+    String pattern = &quot;MM/dd/yyyy HH:mm:ss&quot;;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    String corpCopydt = simpleDateFormat.format(date);
+
+    // Year to write in csv file
+    String writeYear = &quot;yyyy&quot;;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(writeYear);
+    String fileWriteYear = simpleDateFormat.format(date);
+    String year = fileWriteYear;
+    vars.put(&quot;year&quot;, fileWriteYear);
+    log.info(&quot;year :&quot; + fileWriteYear);
+
+    //File Name conversion
+    String filename = &quot;CLBFLNLDTP11&quot;;						//ELBFLNLDTQ21				
+    String patternformat = &quot;MMddyyyyHHmmss&quot;;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(patternformat);
+    String corpCopydt1 = simpleDateFormat.format(date);
+    int randomsec = random.nextInt(899)+100;
+    String milisec = randomsec.toString();
+    String fineNameConversion = referenceNo + &quot;-&quot; + loc_num + &quot;-&quot; + corpCopydt1 + milisec + &quot;UTC&quot; + &quot;-&quot; + imagefiledec + &quot;-&quot; + filename;
+    log.info(&quot;FineNameConversion: &quot; + fineNameConversion);
+
+    //dms doc type
+    String dms_doc_type = &quot;2&quot;;
+
+    //form id
+    int randomformid = random.nextInt(8999999) + 1000000;
+    String formnum = randomformid.toString();
+
+    //Version id
+    int randomver = random.nextInt(8)+1;
+    String version_id = randomver.toString();
+
+    //Description
+    String descript = &quot;Performance-Test-CLBFLNLDTP11&quot;;				//Performance-Test-ELBFLNLDTQ21
+    
+    //Vin No
+    String vinNo = &quot;JH4DA9460NS007560&quot;;							//1GCCS1442W8181753
+
+    //Stock number
+    int randomstck = random.nextInt(89999999) + 10000000;
+    String StockNo = randomstck.toString();
+
+    //Pay type method
+    String paytypemethod = &quot;CAF&quot;;
+
+    //isVaulted
+    String isVaulte = &quot;TRUE&quot;;
+
+    String tiffdestinationPath = tiffdestinationpartial + fineNameConversion + &quot;.tiff&quot;;
+
+    //System.out.println(&quot;file copy&quot;);
+    log.info(tiffdestinationPath);
+
+    InputStream inStream = null;
+    OutputStream outStream = null;
+
+    File inputFile = new File(tiffSampleCompletePath);
+    File outputFile = new File(tiffdestinationPath);
+
+    inStream = new FileInputStream(inputFile);
+    outStream = new FileOutputStream(outputFile);
+
+    byte[] buffer = new byte[1024];
+
+
+    int fileLength;
+    while ((fileLength = inStream.read(buffer)) &gt; 0) {
+        outStream.write(buffer, 0, fileLength);
+    }
+
+    inStream.close();
+    outStream.close();
+
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    Document doc = dBuilder.newDocument();
+
+    // root vehicles element
+    Element rootElement = doc.createElement(&quot;vehicles&quot;);
+    doc.appendChild(rootElement);
+
+    // vehicle element
+    Element vehicle = doc.createElement(&quot;vehicle&quot;);
+    rootElement.appendChild(vehicle);
+
+    // element
+    Element dmsimageid = doc.createElement(&quot;dmsimageid&quot;);
+    dmsimageid.appendChild(doc.createTextNode(dms_id));
+    vehicle.appendChild(dmsimageid);
+
+    Element locnum = doc.createElement(&quot;locnum&quot;);
+    locnum.appendChild(doc.createTextNode(loc_num));
+    vehicle.appendChild(locnum);
+
+    Element locstate = doc.createElement(&quot;locstate&quot;);
+    locstate.appendChild(doc.createTextNode(stateName));
+    vehicle.appendChild(locstate);
+
+    Element imagefilename = doc.createElement(&quot;imagefilename&quot;);
+    imagefilename.appendChild(doc.createTextNode(imagefiledec));
+    vehicle.appendChild(imagefilename);
+
+    Element corpcopydt = doc.createElement(&quot;corpcopydt&quot;);
+    corpcopydt.appendChild(doc.createTextNode(corpCopydt)); // Formate: &quot;10/04/2022 12:00:00&quot;
+    vehicle.appendChild(corpcopydt);
+
+    Element docpath = doc.createElement(&quot;docpath&quot;);
+    docpath.appendChild(doc.createTextNode(tiffdestinationPath));
+    vehicle.appendChild(docpath);
+
+    Element referencenum = doc.createElement(&quot;referencenum&quot;);
+    referencenum.appendChild(doc.createTextNode(referenceNo));
+    vehicle.appendChild(referencenum);
+
+    Element dmsdoctype = doc.createElement(&quot;dmsdoctype&quot;);
+    dmsdoctype.appendChild(doc.createTextNode(dms_doc_type));
+    vehicle.appendChild(dmsdoctype);
+
+    Element formid = doc.createElement(&quot;formid&quot;);
+    formid.appendChild(doc.createTextNode(formnum));
+    vehicle.appendChild(formid);
+
+    Element versionid = doc.createElement(&quot;versionid&quot;);
+    versionid.appendChild(doc.createTextNode(version_id));
+    vehicle.appendChild(versionid);
+
+    Element description = doc.createElement(&quot;description&quot;);
+    description.appendChild(doc.createTextNode(descript));
+    vehicle.appendChild(description);
+
+    Element stocknum = doc.createElement(&quot;stocknum&quot;);
+    stocknum.appendChild(doc.createTextNode(StockNo));
+    vehicle.appendChild(stocknum);
+
+    Element vin = doc.createElement(&quot;vin&quot;);
+    vin.appendChild(doc.createTextNode(vinNo));
+    vehicle.appendChild(vin);
+
+    Element paytype = doc.createElement(&quot;paytype&quot;);
+    paytype.appendChild(doc.createTextNode(paytypemethod));
+    vehicle.appendChild(paytype);
+
+    Element isVaulted = doc.createElement(&quot;isVaulted&quot;);
+    isVaulted.appendChild(doc.createTextNode(isVaulte));
+    vehicle.appendChild(isVaulted);
+
+    // write the content into xml file
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    Transformer transformer = transformerFactory.newTransformer();
+    DOMSource source = new DOMSource(doc);
+
+    StreamResult result = new StreamResult(new File(xmlfilepartialpath + fineNameConversion + &quot;.xml&quot;));
+    transformer.transform(source, result);
+
+    //Copy the file from xml to previous folder
+    String copySourcePath = (xmlfilepartialpath + fineNameConversion + &quot;.xml&quot;);
+    String copyDestinationPath = (finalDestinationPath + fineNameConversion + &quot;.xml&quot;);
+
+    vars.put(&quot;copySourcePath&quot;, copySourcePath);
+    vars.put(&quot;copyDestinationPath&quot;, copyDestinationPath);
+
+    	// Write Order number to the file
+	//FileWriter fWriter = new FileWriter(csvFileWritePath, true);
+	//BufferedWriter buff = new BufferedWriter(fWriter);
+	//buff.write(&quot;\n&quot; + loc_num + &quot;,&quot; + fileWriteYear + &quot;,&quot; + dms_id + &quot;,&quot; + corpCopydt);
+	//buff.close();
+	//fWriter.close();
+}
+
+</stringProp>
+            <stringProp name="scriptLanguage">bsh</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+        </hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="OS Process Sampler tiff" enabled="true">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">cmd.exe</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">/c</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">move</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">${copySourcePath}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">${copyDestinationPath}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory"></stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+        </hashTree>
+        <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <boolProp name="resetInterpreter">false</boolProp>
+          <stringProp name="script">${__setProperty(dms_id,${dms_id})}
+${__setProperty(year,${year})}
+${__setProperty(loc_num,${loc_num})}</stringProp>
+        </BeanShellPostProcessor>
+        <hashTree/>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="Constant Timer" enabled="true">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">cmd.exe</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory"></stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">50000</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="TJS Download-Run" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">&lt;Envelope xmlns=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+    &lt;Body&gt;&#xd;
+        &lt;ImageRequest xmlns=&quot;http://filenet.carmax.org/services/transactionjacket&quot;&gt;&#xd;
+            &lt;imageRequest&gt;&#xd;
+                &lt;locNum&gt;${__property(loc_num)}&lt;/locNum&gt;&#xd;
+                &lt;dmsImageId&gt;${__property(dms_id)}&lt;/dmsImageId&gt;&#xd;
+                &lt;corpCopyYear&gt;${__property(year)}&lt;/corpCopyYear&gt;&#xd;
+                 &lt;operation&gt;100&lt;/operation&gt;&#xd;
+                &lt;userName&gt;${userName}&lt;/userName&gt;  &#xd;
+                &lt;password&gt;${password}&lt;/password&gt;&#xd;
+            &lt;/imageRequest&gt;&#xd;
+        &lt;/ImageRequest&gt;&#xd;
+    &lt;/Body&gt;&#xd;
+&lt;/Envelope&gt;</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">filenetqa.carmax.org</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/TransactionJacketService/ws/TransactionJacket.wsdl</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">SOAPAction</stringProp>
+                <stringProp name="Header.value">&quot;http://filenet.carmax.org/services/transactionjacket&quot;</stringProp>
+              </elementProp>
+              <elementProp name="&apos;Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">text/xml</stringProp>
+              </elementProp>
+              <elementProp name="Cookie" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">LtpaToken2=14WmQTvCZbgg0Mu8IVd6wbHTPfzC2XqLQkI42y4FsxEMCZFw+8TVaOHW3MeKlubXXF7dily14NwTOLTGjcpmiL9T7+AuoKhmDqRk1fmu3wAXEZsA5t4/yv/xoBAR5XENoUZFPJCaEbkEN1MI0FuBhYt6AvUakqM7p+kRDJBelrKpp3OdTqLl7/X+AHTMFpyXxglmf7+9ykXHZJEx/bYAh3L0v0YSw5AI8Sz62cw/FjlGmSq+OtlRGY5D4OYdv1I1nHqpGkKOFKFs+B3LRf8uwwY7OaaHDcK/9a9r0GYMJ6La3gRSpTusda897rKaz+WpKTAPIgf67iiA8NnXVeaQkrf9YddPdMHLXMVKd3rCtMeSGS3+b9Vs714JhAde2Che7j28v4ZIEmW3OlYzqe5Kah2dzADzW8NAllYbqDtyCzbyHdl/dO3RvR5qmxLtn4GefUq3FM0F+R5F48T/fEsrywX2kQ8UTFkxbwQRTFuNT4FbN3YlPGE1rkiKmyHQ5uav0jI3kknhQhEznV+Tz971IUfvcfD4bWwCa+xBfwkXgjigUEK8ubIJ/r78OvXc0Ahgs6G4fJ7EWzTGcROPPlSvQbhSQM2r04iXOxramqAEmP4+IiQbLGBgVaET7RNezyG2dUNLOB9MySpn9oVojvIjqz0iAqhSCZ+tq/vwmlHNLlM9LYyYVtjNEzNPenZX/HAz/GkqXiGmwLRaS5V8amRgxdL8LC6cVXbcIZGUOHaK/wNVwTnUNI4QsPjl/FVKnPNz</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="46041891">.tiff</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

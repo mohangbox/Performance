@@ -1,0 +1,3 @@
+echo "Jmeter Report- Run in Cmd -"
+set HEAP=-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m
+jmeter -n -t D:\Loadtest_Script_Development\EDOCUploadAndTJSDownload\qa\APIUploadAndTJSDownload_QA_10-Oct-2022.jmx -l D:\Loadtest_Script_Development\EDOCUploadAndTJSDownload\qa\Report\TR_EDOC_10042022_900IPM_15mins_Test.csv -e -o D:\Loadtest_Script_Development\EDOCUploadAndTJSDownload\qa\Report\Report\TR_EDOC_10042022_900IPM_15mins_Test
