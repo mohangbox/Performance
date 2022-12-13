@@ -1,0 +1,3 @@
+echo "Jmeter Report- Run in Cmd -"
+set HEAP=-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m
+jmeter -n -t D:\Loadtest_Script_Development\API_Services\API_ServiceOperations\DEV\API_ServiceOperations_AllServices_DEV_V1.1.jmx -l D:\Loadtest_Script_Development\API_Services\API_ServiceOperations\DEV\Report\TR_API_ServiceOperations_Upload_12062022.csv -e -o D:\Loadtest_Script_Development\API_Services\API_ServiceOperations\DEV\Report\TR_API_ServiceOperations_Upload_12062022

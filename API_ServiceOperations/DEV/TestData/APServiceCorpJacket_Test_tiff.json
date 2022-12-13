@@ -1,0 +1,19 @@
+{
+    "info": {
+        "origin": "serviceoperations",
+        "mimeType": "tiff",
+        "category": "apservicecorporatejacket",
+        "originFileCreationTS": "2022-11-01T12:26:03.201Z",
+        "originFileRequestTS": "2022-11-02T12:26:03.201Z"
+    },
+    "filemetadata": {
+        "fileName": "Automation_Tiff_APServiceCorpJacket_0001",
+        "dmsImageId": "2040001",
+        "storeNumber": "9985",
+        "orderNumber": "20420001",
+        "poNumber": "3425600",
+        "scanStatus": "2",
+        "vehicleIdentificationNumber": "19UDE2F31JA007214",
+        "corporateCopyDate": "2022-12-06T12:26:03.201Z"
+    }
+}

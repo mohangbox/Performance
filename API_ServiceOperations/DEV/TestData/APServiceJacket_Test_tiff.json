@@ -1,0 +1,19 @@
+{
+    "info": {
+        "origin": "serviceoperations",
+        "mimeType": "tiff",
+        "category": "apservicejacket",
+        "originFileCreationTS": "2022-11-01T12:26:03.509Z",
+        "originFileRequestTS": "2022-11-02T12:26:03.509Z"
+    },
+    "filemetadata": {
+        "fileName": "Automation_Tiff_APServiceJacket_0001",
+        "dmsImageId": "2030001",
+        "storeNumber": "9985",
+        "orderNumber": "20320001",
+        "poNumber": "2034150",
+        "scanStatus": "2",
+        "vehicleIdentificationNumber": "1J4GL48K24W105400",
+        "corporateCopyDate": "2022-12-06T12:26:03.509Z"
+    }
+}

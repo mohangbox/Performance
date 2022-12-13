@@ -1,0 +1,19 @@
+{
+    "info": {
+        "origin": "serviceoperations",
+        "mimeType": "tiff",
+        "category": "servicejacket",
+        "originFileCreationTS": "2022-11-01T12:33:11.222Z",
+        "originFileRequestTS": "2022-11-02T12:33:11.222Z"
+    },
+    "filemetadata": {
+        "fileName": "Automation_Tiff_ServiceJacket_0011",
+        "dmsImageId": "2022011",
+        "storeNumber": "9985",
+        "orderNumber": "20220011",
+        "stockNumber": "239010",
+        "scanStatus": "2",
+        "vehicleIdentificationNumber": "19UUA66214A047811",
+        "corporateCopyDate": "2022-11-18T12:33:11.222Z"
+    }
+}

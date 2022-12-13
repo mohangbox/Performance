@@ -1,0 +1,19 @@
+{
+    "info": {
+        "origin": "serviceoperations",
+        "mimeType": "tiff",
+        "category": "servicejacket",
+        "originFileCreationTS": "2022-11-01T14:24:27.975Z",
+        "originFileRequestTS": "2022-11-02T14:24:27.975Z"
+    },
+    "filemetadata": {
+        "fileName": "Automation_Tiff_ServiceJacket_10000",
+        "dmsImageId": "2032000",
+        "storeNumber": "9985",
+        "orderNumber": "20230000",
+        "stockNumber": "248999",
+        "scanStatus": "2",
+        "vehicleIdentificationNumber": "JF1GJAK66DH016221",
+        "corporateCopyDate": "2022-12-06T14:24:27.975Z"
+    }
+}
