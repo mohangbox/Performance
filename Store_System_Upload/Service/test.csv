@@ -1,0 +1,5 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1622136910016,123,csv header creation,200,OK,Thread Group 1-1,text,true,,0,0,1,1,null,0,0,0
+1622136910454,39,mkdir,1,OK,Thread Group 1-1,text,true,,115,0,1,1,null,0,0,0
+1622136911457,22610,Service_CSV_creation,200,OK,Thread Group 1-1,text,true,,0,0,1,1,null,0,0,0
+1622136934369,63,OS Process Sampler,0,OK,Thread Group 1-1,text,true,,26,0,1,1,null,0,0,0

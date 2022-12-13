@@ -1,0 +1,14 @@
+set HEAP=-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m 
+
+jmeter -n -t D:\Loadtest\API\eDocsAPIUpload_without_MTLS_QA.jmx -l D:\Loadtest\API\TR_v1_0_5_1800IPM_05262021_0350pm.csv -e -o D:\Loadtest\API\TR_v1_0_5_1800IPM_05262021_0350pm 
+
+jmeter -n -t D:\Loadtest\API\eDocsAPIUpload_without_MTLS_ImageSize_QA.jmx -l D:\Loadtest\API\TR_Order_v1_0_5_900IPM_05272021_1155am.csv -e -o D:\Loadtest\API\TR_Order_v1_0_5_900IPM_05272021_1155am 
+
+
+
+
+
+
+Split report
+jmeter -n -t D:\Loadtest\API\Test_eDocsAPIUpload_without_MTLS_ImageSize_QA.jmx
+jmeter -g D:\Loadtest\API\Overall_API_Order_Image_Report_28-057-2021_115755.jtl -o D:\Loadtest\API\testreport_new

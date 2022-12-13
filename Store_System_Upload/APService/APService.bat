@@ -1,0 +1,2 @@
+cd D:\Loadtest\apache-jmeter-5.4\bin\
+jmeter -n -t D:\Loadtest\movefileprocess_filecopy\APService\FileCopy_APService.jmx -l D:\Loadtest\movefileprocess_filecopy\APService\Input_TEST_MoveFileProcess.csv -e -o D:\Loadtest\movefileprocess_filecopy\APService\FileCopy_APService_MoveCSV_5.jmx

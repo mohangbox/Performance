@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="file_location_qa" enabled="true">
+        <collectionProp name="UserParameters.names">
+          <stringProp name="750693471">file_location_csv</stringProp>
+          <stringProp name="-1414760331">csv_file_name</stringProp>
+          <stringProp name="-667203816">file_location</stringProp>
+          <stringProp name="-265894787">dmsimageId_from</stringProp>
+          <stringProp name="-44968946">dmsimageId_to</stringProp>
+          <stringProp name="144106143">sampletiff</stringProp>
+          <stringProp name="-649601363">folder_location_csv</stringProp>
+          <stringProp name="2015413482">dest_csv_loc</stringProp>
+        </collectionProp>
+        <collectionProp name="UserParameters.thread_values">
+          <collectionProp name="-1216017881">
+            <stringProp name="298629224">\\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\</stringProp>
+            <stringProp name="1328504776">Performace_test_Images</stringProp>
+            <stringProp name="1518321174">\\CLBFLNFSSQ21FS\T3Staging01\APService\ACTIVE_IMAGES\</stringProp>
+            <stringProp name="-729537568">${__Random(3,3)}</stringProp>
+            <stringProp name="1622245940">${__Random(10,12)}</stringProp>
+            <stringProp name="863029068">D:\\Loadtest\\movefileprocess_filecopy\\APService\\2020_test_tiff_edoc_01.tiff</stringProp>
+            <stringProp name="-357323168">\\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\Performace_test_Images${__threadNum}.csv</stringProp>
+            <stringProp name="140900500">\\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_CSV\\Performace_test_Images${__threadNum}.csv</stringProp>
+          </collectionProp>
+        </collectionProp>
+        <boolProp name="UserParameters.per_iteration">false</boolProp>
+        <stringProp name="TestPlan.comments">Performace_test_Images_${__threadNum}</stringProp>
+      </UserParameters>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">3</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">30</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">30</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Once Only Controller" enabled="false"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="csv header creation" enabled="true">
+            <stringProp name="scriptLanguage">java</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">csv_file_name= vars.get(&quot;csv_file_name&quot;);
+
+f = new FileOutputStream(vars.get(&quot;file_location_csv&quot;)+csv_file_name+&quot;.csv&quot;, true); //False to overwrite , true to append rows
+p = new PrintStream(f);
+this.interpreter.setOut(p);
+header=&quot;dms_image_id,loc_num,corp_copy_dt,image_filename,reference_num,dms_doc_type,form_id,version_id,description,stock_num,appr_stock_num_1,appr_stock_num_2,loc_state,cust_id_prim,cust_id_sec,pay_type,term,pay_1st_date,app_num,corporate_path,vin,process_code,scan_status,alt_form_desc,edds_fin_form_type_desc,transaction_date,file_location&quot;;
+print(header);
+
+
+f.close();</stringProp>
+            <stringProp name="TestPlan.comments">vars.put(&quot;currentdate1&quot;,&quot;${__dateTimeConvert(${__time()},,MM/dd/yyyy HH:mm:ss)}&quot;.toString());
+log.info(&quot;currentdate1&quot;);</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller" enabled="true"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="csv header creation" enabled="true">
+            <stringProp name="scriptLanguage">java</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">csv_file_name= vars.get(&quot;csv_file_name&quot;);
+/*File theDir = new File(vars.get(&quot;file_location_csv&quot;)+csv_file_name+${__threadNum});
+if (!theDir.exists()){
+    theDir.mkdirs();
+}*/
+ 
+f = new FileOutputStream(vars.get(&quot;file_location_csv&quot;)+&quot;Performace_test_Images&quot;+${__threadNum}+&quot;.csv&quot;, true); //False to overwrite , true to append rows
+p = new PrintStream(f);
+this.interpreter.setOut(p);
+header=&quot;dms_image_id,loc_num,corp_copy_dt,image_filename,reference_num,dms_doc_type,form_id,version_id,description,stock_num,appr_stock_num_1,appr_stock_num_2,loc_state,cust_id_prim,cust_id_sec,pay_type,term,pay_1st_date,app_num,corporate_path,vin,process_code,scan_status,alt_form_desc,edds_fin_form_type_desc,transaction_date,file_location&quot;;
+print(header);
+
+
+f.close();</stringProp>
+            <stringProp name="TestPlan.comments">vars.put(&quot;currentdate1&quot;,&quot;${__dateTimeConvert(${__time()},,MM/dd/yyyy HH:mm:ss)}&quot;.toString());
+log.info(&quot;currentdate1&quot;);</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="APService_CSV_creation" enabled="true">
+            <stringProp name="scriptLanguage">java</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.slf4j.Logger;
+
+csv_file_name= vars.get(&quot;csv_file_name&quot;);
+
+f = new FileOutputStream(vars.get(&quot;file_location_csv&quot;)+&quot;Performace_test_Images&quot;+${__threadNum}+&quot;.csv&quot;, true); //False to overwrite , true to append rows
+
+p = new PrintStream(f);
+this.interpreter.setOut(p);
+
+currentdate = vars.get(&quot;cur&quot;);
+log.info(currentdate);
+dms_image_id = &quot;9999999&quot;;//988001
+loc_num = &quot;9999&quot;;
+//corp_copy_dt=currentdate;//&quot;1/27/2021  12:45:27 PM&quot;;
+
+
+reference_num= vars.get(&quot;reference_num1&quot;)+vars.get(&quot;reference_num2&quot;)+vars.get(&quot;reference_num3&quot;);
+log.info(reference_num);
+
+dms_doc_type=&quot;2&quot;; //what is the value for this 2 or 3 as per sample csv?
+form_id=&quot;999999&quot;;
+version_id=&quot;1&quot;;
+description=&quot;Description of the FORM for Test&quot;;
+stock_num=&quot;99999999&quot;; //Need to change for each order
+appr_stock_num_1=&quot;99999999&quot;;
+appr_stock_num_2=&quot;99999999&quot;;
+loc_state=&quot;VA&quot;;
+cust_id_prim=&quot;999999&quot;;
+cust_id_sec=&quot;999999&quot;;
+pay_type=&quot;CAF&quot;;
+term=&quot;72&quot;;
+//pay_1st_date=currentdate;
+app_num=&quot;99999999&quot;;
+corporate_path=&quot;&quot;;
+vin=&quot;AA1BAAAA0A9999999&quot;;
+process_code=&quot;1&quot;;
+scan_status=&quot;2&quot;;
+alt_form_desc=&quot;&quot;;
+edds_fin_form_type_desc=&quot;&quot;;
+//transaction_date=currentdate;
+from = vars.get(&quot;dmsimageId_from&quot;);
+to = vars.get(&quot;dmsimageId_to&quot;);
+Integer i_from = new Integer(from);
+Integer i_to = new Integer(to);
+
+for(int i=i_from;i&lt;=i_to;i++){
+dms_image_id=reference_num+i;
+image_filename=dms_image_id;//988001
+//tiffdestinationPath_csv=vars.get(&quot;file_location_csv&quot;)+csv_file_name+&quot;\\\\&quot;+dms_image_id+&quot;.tiff&quot;;
+
+//tiffdestinationPath_csv=vars.get(&quot;file_location_csv&quot;)+csv_file_name+&quot;\\\\&quot;+dms_image_id+&quot;.tiff&quot;;
+//tiffdestinationPath=vars.get(&quot;file_location&quot;)+csv_file_name+&quot;\\&quot; + dms_image_id+ &quot;.tiff&quot;;
+tiffdestinationPath=vars.get(&quot;file_location&quot;)+csv_file_name+&quot;\\\\&quot;+dms_image_id+&quot;.tiff&quot;;
+
+
+		//tiffdestinationPath_csv =&quot;\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\Performace_test_Images\\+dms_image_id+&quot;.tiff&quot;;&quot;
+	     //tiffdestinationPath =    &quot;\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_IMAGES\\Performace_test_Images\\+dms_image_id+&quot;.tiff&quot;;&quot;
+	     //
+	     //tiffdestinationPath_csv = &quot;test&quot;;
+	     //tiffdestinationPath=&quot;\\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_IMAGES\\&quot;;
+//image creation-TODO
+tiffSampleCompletePath =vars.get(&quot;sampletiff&quot;); 
+//log.info(tiffdestinationPath_csv);  
+log.info(tiffdestinationPath);
+   
+
+
+InputStream inStream = null;
+OutputStream outStream = null;
+
+File inputFile =new File(tiffSampleCompletePath);
+File outputFile =new File(tiffdestinationPath);
+
+        inStream = new FileInputStream(inputFile);
+        outStream = new FileOutputStream(outputFile);
+
+        byte[] buffer = new byte[1024];
+
+
+        int fileLength;
+        while ((fileLength = inStream.read(buffer)) &gt; 0){
+
+              outStream.write(buffer, 0, fileLength );
+
+              }
+
+        inStream.close();
+        outStream.close();
+
+
+
+print(dms_image_id+&quot;,&quot;+loc_num+&quot;,&quot; +currentdate+&quot;,&quot;+image_filename+&quot;,&quot;+reference_num+&quot;,&quot;+dms_doc_type+&quot;,&quot;+form_id+&quot;,&quot;+version_id+&quot;,&quot;+description+&quot;,&quot;+stock_num+&quot;,&quot;+appr_stock_num_1+&quot;,&quot;+appr_stock_num_2+&quot;,&quot;+loc_state+&quot;,&quot;+cust_id_prim+&quot;,&quot;+cust_id_sec+&quot;,&quot;+pay_type+&quot;,&quot;+term+&quot;,&quot;+currentdate+&quot;,&quot;+app_num+&quot;,&quot;+corporate_path+&quot;,&quot;+vin+&quot;,&quot;+process_code+&quot;,&quot;+scan_status+&quot;,&quot;+alt_form_desc+&quot;,&quot;+edds_fin_form_type_desc+&quot;,&quot;+currentdate+&quot;,&quot;+tiffdestinationPath);
+
+
+
+}
+
+f.close();
+
+//vars.get(&quot;folder_location_csv&quot;).renameTo(new File(&quot;vars.get(&quot;dest_csv_loc&quot;)&quot;));
+ 
+
+//update the following so the csv file move to destination so icc read from there</stringProp>
+            <stringProp name="TestPlan.comments">vars.put(&quot;currentdate1&quot;,&quot;${__dateTimeConvert(${__time()},,MM/dd/yyyy HH:mm:ss)}&quot;.toString());
+log.info(&quot;currentdate1&quot;);</stringProp>
+          </JSR223Sampler>
+          <hashTree>
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+              <stringProp name="scriptLanguage">groovy</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">cur=&quot;${__dateTimeConvert(${__time()},,MM/dd/yyyy HH:mm:ss)}&quot;;
+vars.put(&quot;cur&quot;,cur)</stringProp>
+            </JSR223PreProcessor>
+            <hashTree/>
+          </hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+            <stringProp name="filename">D:/Loadtest/movefileprocess_filecopy/APService/Input_TEST_MoveFileProcess.csv</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">reference_num1,reference_num2,reference_num3 </stringProp>
+            <boolProp name="ignoreFirstLine">true</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.group</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+          <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="OS Process Sampler" enabled="true">
+            <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+            <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+            <stringProp name="SystemSampler.command">cmd</stringProp>
+            <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">/c</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">move /y \\\CLBFLNFSSQ21FS\T3Staging01\APService\TMP\Performace_test_Images${__threadNum}.csv  \\\CLBFLNFSSQ21FS\T3Staging01\APService\ACTIVE_CSV</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="SystemSampler.directory">C:\Windows\system32</stringProp>
+            <stringProp name="TestPlan.comments">move /y \\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\Performace_test_Images.csv  \\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_CSV\\Performace_test_Images.csv</stringProp>
+          </SystemSampler>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller" enabled="false"/>
+        <hashTree>
+          <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="OS Process Sampler" enabled="true">
+            <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+            <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+            <stringProp name="SystemSampler.command">cmd</stringProp>
+            <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">/c</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">move /y \\\CLBFLNFSSQ21FS\T3Staging01\APService\TMP\Performace_test_Images_${__threadNum}.csv  \\\CLBFLNFSSQ21FS\T3Staging01\APService\ACTIVE_CSV</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="SystemSampler.directory">C:\Windows\system32</stringProp>
+            <stringProp name="TestPlan.comments">move /y \\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\Performace_test_Images.csv  \\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_CSV\\Performace_test_Images.csv</stringProp>
+          </SystemSampler>
+          <hashTree/>
+        </hashTree>
+        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+          <stringProp name="ConstantTimer.delay">300</stringProp>
+        </ConstantTimer>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="${​​__time()}​​" enabled="false">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">//cur = &quot;${__dateTimeConvert(1526574881000,,dd/MM/yyyy HH:mm,)}&quot;;
+cur=&quot;${__dateTimeConvert(${__time()},,MM/dd/yyyy HH:mm:ss a)}&quot;;
+vars.put(&quot;cur&quot;,cur)
+</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">true</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="file_location_local" enabled="false">
+        <collectionProp name="UserParameters.names">
+          <stringProp name="750693471">file_location_csv</stringProp>
+          <stringProp name="-1414760331">csv_file_name</stringProp>
+          <stringProp name="-667203816">file_location</stringProp>
+          <stringProp name="-265894787">dmsimageId_from</stringProp>
+          <stringProp name="-44968946">dmsimageId_to</stringProp>
+          <stringProp name="144106143">sampletiff</stringProp>
+        </collectionProp>
+        <collectionProp name="UserParameters.thread_values">
+          <collectionProp name="431296347">
+            <stringProp name="-1993633985">C:\\Users\\9502392\\OneDrive - CarMax\\Documents\\FileNet\\FileCopy_MoveFileProcess\\</stringProp>
+            <stringProp name="-822885633">TEST_Sales</stringProp>
+            <stringProp name="203817061">C:\Users\9502392\OneDrive - CarMax\Documents\FileNet\FileCopy_MoveFileProcess\</stringProp>
+            <stringProp name="1567">10</stringProp>
+            <stringProp name="1634">35</stringProp>
+            <stringProp name="782031691">C:\\Temp\\filecopy\\testdata\\Sample_TestFiles\\Sample_TestFiles\\edoc\\2020_test_tiff_edoc_01.tiff</stringProp>
+          </collectionProp>
+        </collectionProp>
+        <boolProp name="UserParameters.per_iteration">false</boolProp>
+      </UserParameters>
+      <hashTree/>
+      <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="tearDown Thread Group" enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </PostThreadGroup>
+      <hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller" enabled="true"/>
+        <hashTree>
+          <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="OS Process Sampler" enabled="true">
+            <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+            <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+            <stringProp name="SystemSampler.command">cmd</stringProp>
+            <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">/c</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">move /y \\\CLBFLNFSSQ21FS\T3Staging01\APService\TMP\Performace_test_Images_${__threadNum}.csv  \\\CLBFLNFSSQ21FS\T3Staging01\APService\ACTIVE_CSV</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="SystemSampler.directory">C:\Windows\system32</stringProp>
+            <stringProp name="TestPlan.comments">move /y \\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\Performace_test_Images.csv  \\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_CSV\\Performace_test_Images.csv</stringProp>
+          </SystemSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="false">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="OS Process Sampler" enabled="true">
+          <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+          <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+          <stringProp name="SystemSampler.command">cmd</stringProp>
+          <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">/c</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Argument">
+                <stringProp name="Argument.name"></stringProp>
+                <stringProp name="Argument.value">move /y \\\CLBFLNFSSQ21FS\T3Staging01\Sales\TMP\Performace_test_Images.csv  \\\CLBFLNFSSQ21FS\T3Staging01\Sales\ACTIVE_CSV</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SystemSampler.directory">C:\Windows\system32</stringProp>
+          <stringProp name="TestPlan.comments">move /y \\\\CLBFLNFSSQ21FS\\T3Staging01\\Sales\\TMP\\Performace_test_Images.csv  \\\\CLBFLNFSSQ21FS\\T3Staging01\\Sales\\ACTIVE_CSV\\Performace_test_Images.csv</stringProp>
+        </SystemSampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">5000</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

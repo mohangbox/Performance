@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <UserParameters guiclass="UserParametersGui" testclass="UserParameters" testname="file_location_qa" enabled="true">
+        <collectionProp name="UserParameters.names">
+          <stringProp name="750693471">file_location_csv</stringProp>
+          <stringProp name="-1414760331">csv_file_name</stringProp>
+          <stringProp name="-667203816">file_location</stringProp>
+          <stringProp name="-265894787">dmsimageId_from</stringProp>
+          <stringProp name="-44968946">dmsimageId_to</stringProp>
+          <stringProp name="144106143">sampletiff</stringProp>
+          <stringProp name="-649601363">folder_location_csv</stringProp>
+          <stringProp name="2015413482">dest_csv_loc</stringProp>
+        </collectionProp>
+        <collectionProp name="UserParameters.thread_values">
+          <collectionProp name="1897641048">
+            <stringProp name="298629224">\\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\</stringProp>
+            <stringProp name="1328504776">Performace_test_Images</stringProp>
+            <stringProp name="-394760714">\\CLBFLNFSSQ21FS\T3Staging01\APService\ACTIVE_IMAGES\Performace_test_Images${__threadNum}</stringProp>
+            <stringProp name="-729537568">${__Random(3,3)}</stringProp>
+            <stringProp name="1622245940">${__Random(10,12)}</stringProp>
+            <stringProp name="863029068">D:\\Loadtest\\movefileprocess_filecopy\\APService\\2020_test_tiff_edoc_01.tiff</stringProp>
+            <stringProp name="-357323168">\\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\Performace_test_Images${__threadNum}.csv</stringProp>
+            <stringProp name="140900500">\\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_CSV\\Performace_test_Images${__threadNum}.csv</stringProp>
+          </collectionProp>
+        </collectionProp>
+        <boolProp name="UserParameters.per_iteration">false</boolProp>
+        <stringProp name="TestPlan.comments">Performace_test_Images_${__threadNum}</stringProp>
+      </UserParameters>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">900</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">30</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Once Only Controller" enabled="false"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="csv header creation" enabled="true">
+            <stringProp name="scriptLanguage">java</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">csv_file_name= vars.get(&quot;csv_file_name&quot;);
+
+f = new FileOutputStream(vars.get(&quot;file_location_csv&quot;)+csv_file_name+&quot;.csv&quot;, true); //False to overwrite , true to append rows
+p = new PrintStream(f);
+this.interpreter.setOut(p);
+header=&quot;dms_image_id,loc_num,corp_copy_dt,image_filename,reference_num,dms_doc_type,form_id,version_id,description,stock_num,appr_stock_num_1,appr_stock_num_2,loc_state,cust_id_prim,cust_id_sec,pay_type,term,pay_1st_date,app_num,corporate_path,vin,process_code,scan_status,alt_form_desc,edds_fin_form_type_desc,transaction_date,file_location&quot;;
+print(header);
+
+
+f.close();</stringProp>
+            <stringProp name="TestPlan.comments">vars.put(&quot;currentdate1&quot;,&quot;${__dateTimeConvert(${__time()},,MM/dd/yyyy HH:mm:ss)}&quot;.toString());
+log.info(&quot;currentdate1&quot;);</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller" enabled="true"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="csv header creation" enabled="true">
+            <stringProp name="scriptLanguage">java</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">csv_file_name= vars.get(&quot;csv_file_name&quot;);
+/*File theDir = new File(vars.get(&quot;file_location_csv&quot;)+csv_file_name+${__threadNum});
+if (!theDir.exists()){
+    theDir.mkdirs();
+}*/
+f = new FileOutputStream(vars.get(&quot;file_location_csv&quot;)+&quot;Performace_test_Images&quot;+${__threadNum}+&quot;.csv&quot;, true); //False to overwrite , true to append rows
+p = new PrintStream(f);
+this.interpreter.setOut(p);
+header=&quot;dms_image_id,loc_num,loc_state,corp_copy_dt,image_filename,dms_doc_type,process_code,scan_status,form_id,version_id,description,vin,corporate_path,reference_num,store_vendor_id,invoice_num, transaction_date, po_num,orig_invoice_num ,file_location&quot;;
+print(header);
+
+
+f.close();</stringProp>
+            <stringProp name="TestPlan.comments">vars.put(&quot;currentdate1&quot;,&quot;${__dateTimeConvert(${__time()},,MM/dd/yyyy HH:mm:ss)}&quot;.toString());
+log.info(&quot;currentdate1&quot;);</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="mkdir" enabled="true">
+            <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+            <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+            <stringProp name="SystemSampler.command">cmd</stringProp>
+            <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">/c</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">mkdir \\\CLBFLNFSSQ21FS\T3Staging01\APService\ACTIVE_Images\Performace_test_Images${__threadNum}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="SystemSampler.directory">C:\Windows\system32</stringProp>
+            <stringProp name="TestPlan.comments">Mkdir - \\\CLBFLNFSSQ21FS\T3Staging01\APService\ACTIVE_Images\Performace_test_Images${__threadNum}</stringProp>
+          </SystemSampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">
+from = vars.get(&quot;dmsimageId_from&quot;);
+to = vars.get(&quot;dmsimageId_to&quot;);
+Integer i_from = new Integer(from);
+Integer i_to = new Integer(to);
+
+log.info(from + &quot; from value&quot;);
+log.info(to + &quot; to value&quot;);
+
+Integer i_diff = 1 + (i_to - i_from);
+String s_diff = Integer.toString(i_diff);
+props.put(&quot;p_diff&quot;,s_diff);
+log.info(i_diff + &quot; diff value&quot;);
+
+cur=&quot;${__dateTimeConvert(${__time()},,MM/dd/yyyy HH:mm:ss a)}&quot;;
+vars.put(&quot;cur&quot;,cur)</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="LoopController.loops">${__property(p_diff)}</stringProp>
+          </LoopController>
+          <hashTree>
+            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="TIFF_APService" enabled="true">
+              <stringProp name="scriptLanguage">java</stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="script">import org.slf4j.Logger;
+import java.text.DecimalFormat;
+import java.util.Date;
+
+csv_file_name= vars.get(&quot;csv_file_name&quot;);
+
+f = new FileOutputStream(vars.get(&quot;file_location_csv&quot;)+&quot;Performace_test_Images&quot;+${__threadNum}+&quot;.csv&quot;, true); //False to overwrite , true to append rows
+p = new PrintStream(f);
+this.interpreter.setOut(p);
+
+currentdate = vars.get(&quot;cur&quot;);
+dms_image_id = &quot;9999999&quot;;//988001
+loc_num = &quot;9999&quot;;
+//corp_copy_dt=currentdate;//&quot;1/27/2021  12:45:27 PM&quot;;
+image_filename=&quot;999999999&quot;;//988001
+
+reference_num= vars.get(&quot;reference_num1&quot;)+vars.get(&quot;reference_num2&quot;)+vars.get(&quot;reference_num3&quot;);
+log.info(reference_num);
+
+dms_doc_type=&quot;2&quot;; //what is the value for this 2 or 3 as per sample csv?
+form_id=&quot;999999&quot;;
+version_id=&quot;1&quot;;
+description=&quot;Part Order Invoice APService for Test&quot;;
+stock_num=&quot;99999999&quot;; //Need to change for each order
+process_code=&quot;6&quot;;
+scan_status=&quot;1&quot;;
+loc_state=&quot;VA&quot;;
+
+pay_type=&quot;CAF&quot;;
+term=&quot;72&quot;;
+//pay_1st_date=currentdate;
+app_num=&quot;99999999&quot;;
+corporate_path=&quot;&quot;;
+vin=&quot;AA1BAAAA0A9999999&quot;;
+store_vendor_id=&quot;999&quot;;
+invoice_num=&quot;999999&quot;;
+po_num=&quot;999&quot;;
+orig_invoice_num =&quot;&quot;;
+document_type=&quot;AUC&quot;;
+
+//transaction_date=currentdate;
+from = vars.get(&quot;dmsimageId_from&quot;);
+to = vars.get(&quot;dmsimageId_to&quot;);
+Integer i_from = new Integer(from);
+Integer i_to = new Integer(to);
+
+//for(int i=i_from;i&lt;=i_to;i++){
+//dms_image_id=reference_num+i;
+dms_image_id=reference_num;
+			Date date = new Date();
+              
+              long timestamp = date.getTime();
+              DecimalFormat df = new DecimalFormat(&quot;##################################&quot;);
+			String timestamp_new = 	df.format(timestamp).toString();
+			log.info(timestamp_new);
+			
+//tiffdestinationPath_csv=vars.get(&quot;file_location_csv&quot;)+csv_file_name+&quot;\\\\&quot;+dms_image_id+&quot;.tiff&quot;;
+
+//tiffdestinationPath_csv=vars.get(&quot;file_location_csv&quot;)+csv_file_name+&quot;\\\\&quot;+dms_image_id+&quot;.tiff&quot;;
+//tiffdestinationPath=vars.get(&quot;file_location&quot;)+csv_file_name+&quot;\\&quot; + dms_image_id+ &quot;.tiff&quot;;
+tiffdestinationPath=vars.get(&quot;file_location&quot;)+&quot;\\\\&quot;+dms_image_id+&quot;_&quot;+timestamp_new+&quot;.tiff&quot;;
+tiffdestinationPath_new = &quot;\\\\&quot;+tiffdestinationPath.toString();
+
+		//tiffdestinationPath_csv =&quot;\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\Performace_test_Images\\+dms_image_id+&quot;.tiff&quot;;&quot;
+	     //tiffdestinationPath =    &quot;\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_IMAGES\\Performace_test_Images\\+dms_image_id+&quot;.tiff&quot;;&quot;
+	     //
+	     //tiffdestinationPath_csv = &quot;test&quot;;
+	     //tiffdestinationPath=&quot;\\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_IMAGES\\&quot;;
+//image creation-TODO
+tiffSampleCompletePath =vars.get(&quot;sampletiff&quot;); 
+//log.info(tiffdestinationPath_csv);  
+log.info(tiffdestinationPath);
+   
+
+
+InputStream inStream = null;
+OutputStream outStream = null;
+
+File inputFile =new File(tiffSampleCompletePath);
+File outputFile =new File(tiffdestinationPath_new);
+
+        inStream = new FileInputStream(inputFile);
+        outStream = new FileOutputStream(outputFile);
+
+        byte[] buffer = new byte[1024];
+
+
+        int fileLength;
+        while ((fileLength = inStream.read(buffer)) &gt; 0){
+
+              outStream.write(buffer, 0, fileLength );
+
+              }
+
+        inStream.close();
+        outStream.close();
+
+
+
+print(dms_image_id+&quot;,&quot;+loc_num+&quot;,&quot;+loc_state+&quot;,&quot;+currentdate+&quot;,&quot;+image_filename+&quot;,&quot;+dms_doc_type+&quot;,&quot;+process_code+&quot;,&quot;+scan_status+&quot;,&quot;
++form_id+&quot;,&quot;+version_id+&quot;,&quot;+description+&quot;,&quot;+vin+&quot;,&quot;+corporate_path+&quot;,&quot;+reference_num+&quot;,&quot;+
+store_vendor_id+&quot;,&quot;+invoice_num+&quot;,&quot;+ currentdate+&quot;,&quot;+ po_num+&quot;,&quot;+orig_invoice_num +&quot;,&quot;+tiffdestinationPath_new);
+
+
+//}
+
+f.close();</stringProp>
+              <stringProp name="TestPlan.comments">vars.put(&quot;currentdate1&quot;,&quot;${__dateTimeConvert(${__time()},,MM/dd/yyyy HH:mm:ss)}&quot;.toString());
+log.info(&quot;currentdate1&quot;);</stringProp>
+            </JSR223Sampler>
+            <hashTree/>
+          </hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+            <stringProp name="filename">D:/Loadtest/movefileprocess_filecopy/APService/Input_TEST_MoveFileProcess.csv</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">reference_num1,reference_num2,reference_num3 </stringProp>
+            <boolProp name="ignoreFirstLine">true</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.group</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+          <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="move" enabled="true">
+            <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+            <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+            <stringProp name="SystemSampler.command">cmd</stringProp>
+            <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">/c</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Argument">
+                  <stringProp name="Argument.name"></stringProp>
+                  <stringProp name="Argument.value">move /y \\\CLBFLNFSSQ21FS\T3Staging01\APService\TMP\Performace_test_Images${__threadNum}.csv  \\\CLBFLNFSSQ21FS\T3Staging01\APService\ACTIVE_CSV</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="SystemSampler.directory">C:\Windows\system32</stringProp>
+            <stringProp name="TestPlan.comments">move /y \\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\TMP\\Performace_test_Images.csv  \\\\CLBFLNFSSQ21FS\\T3Staging01\\APService\\ACTIVE_CSV\\Performace_test_Images.csv</stringProp>
+          </SystemSampler>
+          <hashTree/>
+        </hashTree>
+        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+          <stringProp name="ConstantTimer.delay">300</stringProp>
+        </ConstantTimer>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">true</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
