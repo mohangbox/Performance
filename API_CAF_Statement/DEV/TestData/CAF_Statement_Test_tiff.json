@@ -1,0 +1,19 @@
+{
+    "info": {
+        "origin": "caf",
+        "mimeType": "tiff",
+        "category": "statements",
+        "originFileCreationTS": "2022-10-24T12:54:21.386Z",
+        "originFileRequestTS": "2022-10-25T12:54:21.386Z"
+    },
+    "filemetadata": {
+        "fileName": "Automation_TIFF_TestFile00001",
+        "classicCustomerId": "11435561",
+        "statementDate": "2022-01-11T12:54:21.386Z",
+        "loanNumber": "11000412",
+        "vehicleIdentificationNumber": "1FVACWDU1BHBB3474",
+        "expirationDate": "2024-12-31T23:59:59.999Z",
+        "state": "MD",
+        "corporateCopyDate": "2022-12-01T12:54:21.386Z"
+    }
+}

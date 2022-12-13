@@ -1,0 +1,19 @@
+{
+    "info": {
+        "origin": "caf",
+        "mimeType": "pdf",
+        "category": "statements",
+        "originFileCreationTS": "2022-10-24T12:30:20.409Z",
+        "originFileRequestTS": "2022-10-25T12:30:20.409Z"
+    },
+    "filemetadata": {
+        "fileName": "Automation_PDF_TestFile00001",
+        "classicCustomerId": "11439901",
+        "statementDate": "2022-01-11T12:30:20.409Z",
+        "loanNumber": "11004123",
+        "vehicleIdentificationNumber": "4JGBB8GB4BA662410",
+        "expirationDate": "2024-12-31T23:59:59.999Z",
+        "state": "MD",
+        "corporateCopyDate": "2022-11-18T12:30:20.409Z"
+    }
+}
