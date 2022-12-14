@@ -18,7 +18,7 @@
       <stringProp name="TestPlan.user_define_classpath">D:\Loadtest_Script_Development\API_Services\lib\ecm-document-java-sdk-1.0.7.jar,D:\Loadtest_Script_Development\API_Services\lib\ecm-az-mastercard-payload-encryption-1.0.7.jar,D:\Loadtest_Script_Development\API_Services\lib\gson-2.8.8.jar,D:\Loadtest_Script_Development\API_Services\lib\httpclient5-5.1.3.jar</stringProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="eDocs-Form" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="eDocs-Form-try" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -194,7 +194,6 @@ document = api.uploadDocument(document);
 log.info(&quot;Document Id: &quot; + document.getId());
 document.getFields();
 
-
 //Document[] results = api.searchOrderNumberAndStoreNumber(&quot;edocs&quot;, &quot;form&quot;, 995339, 9990, null, null);
 //log.info(&quot;Order Number Search Results (&quot; + results.length + &quot;) and results: &quot; + results);
 //document.getFields();
@@ -361,7 +360,115 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_forms_Document_Download" enabled="false">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_forms_Metadata" enabled="false">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Metadata Download
+Document document = new ECMDocument();
+
+document = api.downloadDocumentMetaData(&quot;${id}&quot;);
+log.info(&quot;Document Id: &quot; + document.getId());
+document.getFields();</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1332543754">fileName=</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_forms_Download" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -445,117 +552,22 @@ ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtl
 //Document Download
 Document document = new ECMDocument();
 
-document = api.downloadDocument(&quot;${id}&quot;);
-log.info(&quot;Document Id: &quot; + document.getId());
-document.getFields();</stringProp>
-          <stringProp name="scriptLanguage">groovy</stringProp>
-        </JSR223Sampler>
-        <hashTree>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
-            <stringProp name="TestPlan.comments">Delay for response</stringProp>
-            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
-          </ConstantTimer>
-          <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1332543754">fileName=</stringProp>
-            </collectionProp>
-            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
-            <stringProp name="Assertion.custom_message"></stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">2</intProp>
-            <stringProp name="Assertion.scope">all</stringProp>
-          </ResponseAssertion>
-          <hashTree/>
-        </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_forms_MetadataDownload" enabled="false">
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="script">/*
- * Pre-requisite
- * ----------------------------------------------------
- * 1. All the lib files to be placed under lib folder in JMeter file location
- *  	accessors-smart-2.4.7.jar
- * 	asm-9.1.jar
- * 	commons-codec-1.13.jar
- * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
- * 	ecm-document-java-sdk-1.0.11.jar
- * 	gson-2.8.6.jar
- * 	httpclient5-5.0.3.jar
- * 	httpcore5-5.0.2.jar
- * 	httpcore5-h2-5.0.2.jar
- * 	json-path-2.6.0.jar
- * 	json-smart-2.4.7.jar
- * 	logback-classic-1.4.0.jar
- * 	logback-core-1.4.0.jar
- * 	slf4j-api-1.7.25.jar
- * 2. Java JDK version should be used 1.8.0_152 and above
- * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
- * 4. Script Language should be selected as groovy in JMeter sampler
-*/
+Date date = new Date();
+String pattern = &quot;yyyyMMddHHmmssSSS&quot;;
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+String DateFormat = simpleDateFormat.format(date);
+log.info(&quot;Date Format: &quot; + DateFormat);
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.security.KeyStore;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-import com.carmax.ecm.client.ECMDocumentManagementAPI;
-import com.carmax.ecm.client.model.Document;
-import com.carmax.ecm.client.model.ECMDocument;
-import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.FileUtils;
-import java.util.Random;
-
-Random random = new Random();
-
-//Variable Declaration 
-String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
-String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
-KeyStore mtlsKeyStore = null; 		// for Dev this should be null
-char[] mtlsPassword = null; 			// for Dev this should be null
-
-String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
-String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
-String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+String Fname = &quot;\\\&quot;;
+String fileName = testPlanFileDir + Fname + &quot;Download&quot; + Fname + DateFormat + &quot;-&quot; + &quot;${id}&quot; + &quot;.tiff&quot;;  //Unique file name
+    
+byte[] bytesOfDownloadedFile = api.downloadDocument(&quot;${id}&quot;).getBytes(); //download
+File outputFile =  new File(fileName); //create path to write file to
+FileOutputStream fos = new FileOutputStream(outputFile); //write byte [] to file path
+fos.write(bytesOfDownloadedFile);
+fos.close();
 
 
-//pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
-String pfx_filepath = testPlanFileDir + pfxfile_name;
-//log.info(pfx_filepath);
-
-//Tiff file current location
-String tiff_filepath = testPlanFileDir + tifffile_name;
-//log.info(tiff_filepath);
-
-//Load file
-File privateCert = new File(pfx_filepath);
-//log.info(&quot;privateCert: &quot;+privateCert.exists());
-
-char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
-//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
-
-InputStream keyStoreStream = new FileInputStream(privateCert);
-KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
-payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
-
-//Pass ECM document Management API
-ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
-
-//TJS Download
-Document document = new ECMDocument();
-
-document = api.downloadDocumentMetaData(&quot;${id}&quot;);
-log.info(&quot;Document Id: &quot; + document.getId());
-document.getFields();
 </stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
@@ -567,18 +579,18 @@ document.getFields();
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1332543754">fileName=</stringProp>
+              <stringProp name="49586">200</stringProp>
             </collectionProp>
             <stringProp name="TestPlan.comments">Verify content in response</stringProp>
             <stringProp name="Assertion.custom_message"></stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
             <stringProp name="Assertion.scope">all</stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_forms_Search" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_forms_Search" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -678,13 +690,465 @@ Document[] document1 = new ECMDocument();
 //Date date1= now.format(&quot;MM-dd-yyyy&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;&quot;);
 //Date date2= now.format(&quot;MM-dd-yyyy&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;&quot;);
 
-Date data1= sdf.format(currentTime-10);
-Date data2= sdf.format(currentTime);
+Date data1= currentTime-10;
+Date data2= currentTime;
 
-document1 = api.searchOrderNumberAndStoreNumber(&quot;edocs&quot;, &quot;form&quot;, 9981870, 9997,  currentTime, currentTime);
+document1 = api.searchOrderNumberAndStoreNumber(&quot;edocs&quot;, &quot;form&quot;, 9981870, 9997,  data1, data2);
+//document1.getClass();
+document1.findResults();
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="eDocs-Form" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_forms_TransactionJacket_Upload" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
 
-//log.info(&quot;Test :&quot; + document1.length);
-document1.getResults();
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+
+
+//Random Location Number
+int randomloc = random.nextInt(9)+9990;  //Start from 9990 to 9999
+String loc_num = randomloc.toString();
+//String loc_num = 4000;
+
+//Random order Number
+int random_ord = random.nextInt(89999)+10000;  //Start from 9910000 to 9999999
+String order_num = &quot;99&quot; + random_ord.toString();
+//String order_num = 999999L;
+
+//Random stock Number
+int random_stk = random.nextInt(89999)+10000;  //Start from 9910000 to 9999999
+String stock_num = &quot;99&quot; + random_stk.toString();
+//String stock_num = 999999L;
+
+//Random VIN
+def vinNo =[&quot;1B3CB3HA1BD238118&quot;, &quot;1C4BJWDG9EL116755&quot;, &quot;1D7RV1GT4BS574533&quot;, &quot;1FAFP53205A204191&quot;, &quot;1FMCU9GX3DUC75588&quot;] as String[];
+int ran_vin =random.nextInt(vinNo.length);
+String random_vin = vinNo[ran_vin];
+
+//Pay type method
+String paytypemethod = &quot;CAF&quot;;
+
+//Doc vaulted 
+Boolean documentVaulted = true;
+
+//Random classic Customer Id
+int random_custId = random.nextInt(89999)+10000;   //Start from 9910000 to 9999999
+String classic_CustomerId = &quot;99&quot; + random_custId.toString();
+//String classic_CustomerId = 999999L;
+
+//Random state
+def state=[&quot;MD&quot;, &quot;MS&quot;, &quot;CA&quot;, &quot;ME&quot;, &quot;TN&quot;, &quot;PA&quot;, &quot;MA&quot;] as String[];
+int ran_state=random.nextInt(state.length);
+String random_state = state[ran_state];
+
+//Random dms Image id
+int random_dmsimageid = random.nextInt(89999)+10000;	 //Start from 9910000 to 9999999
+String dmsImageId = &quot;99&quot; + random_dmsimageid.toString();
+//String dmsImageId = 123457L;
+
+
+//Create and TJS Upload
+java.util.Date currentTime = new java.util.Date();
+SimpleDateFormat sdf = Utils.getStandardDateFormatter();
+File file = new File(tiff_filepath);
+byte[] image = Files.readAllBytes(file.toPath());
+
+//Create document
+Document document = new ECMDocument();
+document.setOrigin(&quot;edocs&quot;);
+document.setCategory(&quot;form&quot;);
+
+Map fields = new HashMap();
+fields.put(&quot;fileName&quot;, &quot;JMeter_Java_SDK_TransactionJacket_&quot; + sdf.format(currentTime) + &quot;.tiff&quot;);
+fields.put(&quot;storeNumber&quot;, loc_num);
+fields.put(&quot;orderNumber&quot;, order_num);
+fields.put(&quot;stockNumber&quot;, stock_num);
+fields.put(&quot;vehicleIdentificationNumber&quot;, random_vin);
+fields.put(&quot;paymentType&quot;, paytypemethod);
+fields.put(&quot;documentVaulted&quot;, documentVaulted);
+fields.put(&quot;classicCustomerId&quot;, classic_CustomerId);
+fields.put(&quot;corporateCopyDate&quot;, currentTime);
+fields.put(&quot;state&quot;, random_state);
+fields.put(&quot;dmsImageId&quot;, dmsImageId);
+fields.put(&quot;formId&quot;, 12345678);
+fields.put(&quot;formDescription&quot;, &quot;Java_SDK&quot;);
+fields.put(&quot;formRevisionId&quot;, 2);
+fields.put(&quot;scanStatus&quot;, 2);
+
+
+document.setFields(fields);
+document.setBytes(image);
+
+//Upload document into API
+document = api.uploadDocument(document);
+log.info(&quot;Document Id: &quot; + document.getId());
+document.getFields();
+
+//Document[] results = api.searchOrderNumberAndStoreNumber(&quot;edocs&quot;, &quot;form&quot;, 995339, 9990, null, null);
+//log.info(&quot;Order Number Search Results (&quot; + results.length + &quot;) and results: &quot; + results);
+//document.getFields();
+
+
+
+
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1332543754">fileName=</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <BoundaryExtractor guiclass="BoundaryExtractorGui" testclass="BoundaryExtractor" testname="Boundary Extractor" enabled="true">
+            <stringProp name="BoundaryExtractor.useHeaders">false</stringProp>
+            <stringProp name="BoundaryExtractor.refname">id</stringProp>
+            <stringProp name="BoundaryExtractor.lboundary">id=</stringProp>
+            <stringProp name="BoundaryExtractor.rboundary">,</stringProp>
+            <stringProp name="BoundaryExtractor.default"></stringProp>
+            <boolProp name="BoundaryExtractor.default_empty_value">false</boolProp>
+            <stringProp name="BoundaryExtractor.match_number"></stringProp>
+            <stringProp name="Sample.scope">all</stringProp>
+          </BoundaryExtractor>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_forms_Metadata" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Metadata Download
+Document document = new ECMDocument();
+
+document = api.downloadDocumentMetaData(&quot;${id}&quot;);
+log.info(&quot;Document Id: &quot; + document.getId());
+document.getFields();</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1332543754">fileName=</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_forms_Download" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Document Download
+//Document document = new ECMDocument();
+//
+//document = api.downloadDocument(&quot;${id}&quot;);
+//log.info(&quot;Document Id: &quot; + document.getId());
+//document.getFields();
+//document.getBytes();
+
+//Document Download
+Document document = new ECMDocument();
+
+Date date = new Date();
+String pattern = &quot;yyyyMMddHHmmssSSS&quot;;
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+String DateFormat = simpleDateFormat.format(date);
+log.info(&quot;Date Format: &quot; + DateFormat);
+
+String Fname = &quot;\\\&quot;;
+String fileName = testPlanFileDir + Fname + &quot;Download&quot; + Fname + DateFormat + &quot;-&quot; + &quot;${id}&quot; + &quot;.tiff&quot;;  //Unique file name
+    
+byte[] bytesOfDownloadedFile = api.downloadDocument(&quot;${id}&quot;).getBytes(); //download
+File outputFile =  new File(fileName); //create path to write file to
+FileOutputStream fos = new FileOutputStream(outputFile); //write byte [] to file path
+fos.write(bytesOfDownloadedFile);
+fos.close();
 </stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
@@ -918,116 +1382,7 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_agreement_Document_Download" enabled="true">
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="script">/*
- * Pre-requisite
- * ----------------------------------------------------
- * 1. All the lib files to be placed under lib folder in JMeter file location
- *  	accessors-smart-2.4.7.jar
- * 	asm-9.1.jar
- * 	commons-codec-1.13.jar
- * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
- * 	ecm-document-java-sdk-1.0.11.jar
- * 	gson-2.8.6.jar
- * 	httpclient5-5.0.3.jar
- * 	httpcore5-5.0.2.jar
- * 	httpcore5-h2-5.0.2.jar
- * 	json-path-2.6.0.jar
- * 	json-smart-2.4.7.jar
- * 	logback-classic-1.4.0.jar
- * 	logback-core-1.4.0.jar
- * 	slf4j-api-1.7.25.jar
- * 2. Java JDK version should be used 1.8.0_152 and above
- * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
- * 4. Script Language should be selected as groovy in JMeter sampler
-*/
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.security.KeyStore;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-import com.carmax.ecm.client.ECMDocumentManagementAPI;
-import com.carmax.ecm.client.model.Document;
-import com.carmax.ecm.client.model.ECMDocument;
-import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.FileUtils;
-import java.util.Random;
-
-Random random = new Random();
-
-//Variable Declaration 
-String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
-String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
-KeyStore mtlsKeyStore = null; 		// for Dev this should be null
-char[] mtlsPassword = null; 			// for Dev this should be null
-
-String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
-String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
-String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
-
-
-//pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
-String pfx_filepath = testPlanFileDir + pfxfile_name;
-//log.info(pfx_filepath);
-
-//Tiff file current location
-String tiff_filepath = testPlanFileDir + tifffile_name;
-//log.info(tiff_filepath);
-
-//Load file
-File privateCert = new File(pfx_filepath);
-//log.info(&quot;privateCert: &quot;+privateCert.exists());
-
-char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
-//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
-
-InputStream keyStoreStream = new FileInputStream(privateCert);
-KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
-payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
-
-//Pass ECM document Management API
-ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
-
-//Document Download
-Document document = new ECMDocument();
-
-document = api.downloadDocument(&quot;${id}&quot;);
-log.info(&quot;Document Id: &quot; + document.getId());
-document.getFields();
-</stringProp>
-          <stringProp name="scriptLanguage">groovy</stringProp>
-        </JSR223Sampler>
-        <hashTree>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
-            <stringProp name="TestPlan.comments">Delay for response</stringProp>
-            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
-          </ConstantTimer>
-          <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1332543754">fileName=</stringProp>
-            </collectionProp>
-            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
-            <stringProp name="Assertion.custom_message"></stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">2</intProp>
-            <stringProp name="Assertion.scope">all</stringProp>
-          </ResponseAssertion>
-          <hashTree/>
-        </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_agreement_MetadataDownload" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_agreement_Metadata" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -1113,8 +1468,7 @@ Document document = new ECMDocument();
 
 document = api.downloadDocumentMetaData(&quot;${id}&quot;);
 log.info(&quot;Document Id: &quot; + document.getId());
-document.getFields();
-</stringProp>
+document.getFields();</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree>
@@ -1130,6 +1484,134 @@ document.getFields();
             <stringProp name="TestPlan.comments">Verify content in response</stringProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="eDocs_agreement_Download" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Document Download
+//Document document = new ECMDocument();
+//
+//document = api.downloadDocument(&quot;${id}&quot;);
+//log.info(&quot;Document Id: &quot; + document.getId());
+//document.getFields();
+//document.getBytes();
+
+//Document Download
+Document document = new ECMDocument();
+
+Date date = new Date();
+String pattern = &quot;yyyyMMddHHmmssSSS&quot;;
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+String DateFormat = simpleDateFormat.format(date);
+log.info(&quot;Date Format: &quot; + DateFormat);
+
+String Fname = &quot;\\\&quot;;
+String fileName = testPlanFileDir + Fname + &quot;Download&quot; + Fname + DateFormat + &quot;-&quot; + &quot;${id}&quot; + &quot;.pdf&quot;;  //Unique file name
+    
+byte[] bytesOfDownloadedFile = api.downloadDocument(&quot;${id}&quot;).getBytes(); //download
+File outputFile =  new File(fileName); //create path to write file to
+FileOutputStream fos = new FileOutputStream(outputFile); //write byte [] to file path
+fos.write(bytesOfDownloadedFile);
+fos.close();
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
             <stringProp name="Assertion.scope">all</stringProp>
@@ -1327,7 +1809,7 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_download" enabled="false">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_Metadata" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -1430,6 +1912,134 @@ document.getFields();
             <stringProp name="TestPlan.comments">Verify content in response</stringProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_download" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Document Download
+//Document document = new ECMDocument();
+//
+//document = api.downloadDocument(&quot;${id}&quot;);
+//log.info(&quot;Document Id: &quot; + document.getId());
+//document.getFields();
+//document.getBytes();
+
+//Document Download
+Document document = new ECMDocument();
+
+Date date = new Date();
+String pattern = &quot;yyyyMMddHHmmssSSS&quot;;
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+String DateFormat = simpleDateFormat.format(date);
+log.info(&quot;Date Format: &quot; + DateFormat);
+
+String Fname = &quot;\\\&quot;;
+String fileName = testPlanFileDir + Fname + &quot;Download&quot; + Fname + DateFormat + &quot;-&quot; + &quot;${id}&quot; + &quot;.tiff&quot;;  //Unique file name
+    
+byte[] bytesOfDownloadedFile = api.downloadDocument(&quot;${id}&quot;).getBytes(); //download
+File outputFile =  new File(fileName); //create path to write file to
+FileOutputStream fos = new FileOutputStream(outputFile); //write byte [] to file path
+fos.write(bytesOfDownloadedFile);
+fos.close();
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
             <stringProp name="Assertion.scope">all</stringProp>
@@ -1599,7 +2209,7 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_Download" enabled="false">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_Metadata" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -1702,6 +2312,134 @@ document.getFields();
             <stringProp name="TestPlan.comments">Verify content in response</stringProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_Download" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Document Download
+//Document document = new ECMDocument();
+//
+//document = api.downloadDocument(&quot;${id}&quot;);
+//log.info(&quot;Document Id: &quot; + document.getId());
+//document.getFields();
+//document.getBytes();
+
+//Document Download
+Document document = new ECMDocument();
+
+Date date = new Date();
+String pattern = &quot;yyyyMMddHHmmssSSS&quot;;
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+String DateFormat = simpleDateFormat.format(date);
+log.info(&quot;Date Format: &quot; + DateFormat);
+
+String Fname = &quot;\\\&quot;;
+String fileName = testPlanFileDir + Fname + &quot;Download&quot; + Fname + DateFormat + &quot;-&quot; + &quot;${id}&quot; + &quot;.tiff&quot;;  //Unique file name
+    
+byte[] bytesOfDownloadedFile = api.downloadDocument(&quot;${id}&quot;).getBytes(); //download
+File outputFile =  new File(fileName); //create path to write file to
+FileOutputStream fos = new FileOutputStream(outputFile); //write byte [] to file path
+fos.write(bytesOfDownloadedFile);
+fos.close();
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
             <stringProp name="Assertion.scope">all</stringProp>
@@ -1891,7 +2629,7 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="CAF_Statements_Download" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="CAF_Statements_Metadata" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -1993,6 +2731,134 @@ document.getFields();</stringProp>
             <stringProp name="TestPlan.comments">Verify content in response</stringProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="CAF_Statements_Download" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Document Download
+//Document document = new ECMDocument();
+//
+//document = api.downloadDocument(&quot;${id}&quot;);
+//log.info(&quot;Document Id: &quot; + document.getId());
+//document.getFields();
+//document.getBytes();
+
+//Document Download
+Document document = new ECMDocument();
+
+Date date = new Date();
+String pattern = &quot;yyyyMMddHHmmssSSS&quot;;
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+String DateFormat = simpleDateFormat.format(date);
+log.info(&quot;Date Format: &quot; + DateFormat);
+
+String Fname = &quot;\\\&quot;;
+String fileName = testPlanFileDir + Fname + &quot;Download&quot; + Fname + DateFormat + &quot;-&quot; + &quot;${id}&quot; + &quot;.tiff&quot;;  //Unique file name
+    
+byte[] bytesOfDownloadedFile = api.downloadDocument(&quot;${id}&quot;).getBytes(); //download
+File outputFile =  new File(fileName); //create path to write file to
+FileOutputStream fos = new FileOutputStream(outputFile); //write byte [] to file path
+fos.write(bytesOfDownloadedFile);
+fos.close();
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
             <stringProp name="Assertion.scope">all</stringProp>
@@ -2178,7 +3044,7 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Serviceoperations-ServiceJacket_Download" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Serviceoperations-ServiceJacket_Metadata" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2281,6 +3147,134 @@ document.getFields();
             <stringProp name="TestPlan.comments">Verify content in response</stringProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Serviceoperations-ServiceJacket_Download" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Document Download
+//Document document = new ECMDocument();
+//
+//document = api.downloadDocument(&quot;${id}&quot;);
+//log.info(&quot;Document Id: &quot; + document.getId());
+//document.getFields();
+//document.getBytes();
+
+//Document Download
+Document document = new ECMDocument();
+
+Date date = new Date();
+String pattern = &quot;yyyyMMddHHmmssSSS&quot;;
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+String DateFormat = simpleDateFormat.format(date);
+log.info(&quot;Date Format: &quot; + DateFormat);
+
+String Fname = &quot;\\\&quot;;
+String fileName = testPlanFileDir + Fname + &quot;Download&quot; + Fname + DateFormat + &quot;-&quot; + &quot;${id}&quot; + &quot;.tiff&quot;;  //Unique file name
+    
+byte[] bytesOfDownloadedFile = api.downloadDocument(&quot;${id}&quot;).getBytes(); //download
+File outputFile =  new File(fileName); //create path to write file to
+FileOutputStream fos = new FileOutputStream(outputFile); //write byte [] to file path
+fos.write(bytesOfDownloadedFile);
+fos.close();
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
             <stringProp name="Assertion.scope">all</stringProp>
@@ -2461,7 +3455,7 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Serviceoperations-APServiceCorporateJacket_Download" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Serviceoperations-APServiceCorporateJacket_Metadata" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2564,6 +3558,134 @@ document.getFields();
             <stringProp name="TestPlan.comments">Verify content in response</stringProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Serviceoperations-APServiceCorporateJacket_Download" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Document Download
+//Document document = new ECMDocument();
+//
+//document = api.downloadDocument(&quot;${id}&quot;);
+//log.info(&quot;Document Id: &quot; + document.getId());
+//document.getFields();
+//document.getBytes();
+
+//Document Download
+Document document = new ECMDocument();
+
+Date date = new Date();
+String pattern = &quot;yyyyMMddHHmmssSSS&quot;;
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+String DateFormat = simpleDateFormat.format(date);
+log.info(&quot;Date Format: &quot; + DateFormat);
+
+String Fname = &quot;\\\&quot;;
+String fileName = testPlanFileDir + Fname + &quot;Download&quot; + Fname + DateFormat + &quot;-&quot; + &quot;${id}&quot; + &quot;.tiff&quot;;  //Unique file name
+    
+byte[] bytesOfDownloadedFile = api.downloadDocument(&quot;${id}&quot;).getBytes(); //download
+File outputFile =  new File(fileName); //create path to write file to
+FileOutputStream fos = new FileOutputStream(outputFile); //write byte [] to file path
+fos.write(bytesOfDownloadedFile);
+fos.close();
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
             <stringProp name="Assertion.scope">all</stringProp>
@@ -2744,7 +3866,7 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Serviceoperations-APServiceJacket_Download" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Serviceoperations-APServiceJacket_Metadata" enabled="true">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2847,6 +3969,134 @@ document.getFields();
             <stringProp name="TestPlan.comments">Verify content in response</stringProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Serviceoperations-APServiceJacket_Download" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">/*
+ * Pre-requisite
+ * ----------------------------------------------------
+ * 1. All the lib files to be placed under lib folder in JMeter file location
+ *  	accessors-smart-2.4.7.jar
+ * 	asm-9.1.jar
+ * 	commons-codec-1.13.jar
+ * 	ecm-az-mastercard-payload-encryption-1.0.7.jar
+ * 	ecm-document-java-sdk-1.0.11.jar
+ * 	gson-2.8.6.jar
+ * 	httpclient5-5.0.3.jar
+ * 	httpcore5-5.0.2.jar
+ * 	httpcore5-h2-5.0.2.jar
+ * 	json-path-2.6.0.jar
+ * 	json-smart-2.4.7.jar
+ * 	logback-classic-1.4.0.jar
+ * 	logback-core-1.4.0.jar
+ * 	slf4j-api-1.7.25.jar
+ * 2. Java JDK version should be used 1.8.0_152 and above
+ * 3. Enable &quot;crypto.policy=unlimited&quot; under Java jdk file path \jdk1.8.0_152\jre\lib\security\java.security
+ * 4. Script Language should be selected as groovy in JMeter sampler
+*/
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import com.carmax.ecm.client.ECMDocumentManagementAPI;
+import com.carmax.ecm.client.model.Document;
+import com.carmax.ecm.client.model.ECMDocument;
+import com.carmax.ecm.client.utils.Utils;
+import org.apache.jmeter.gui.GuiPackage;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.FileUtils;
+import java.util.Random;
+
+Random random = new Random();
+
+//Variable Declaration 
+String baseUrl = &quot;https://apis-dev.carmax.com/ecm-documents-v2&quot;;
+String apikey = &quot;awH2uRtVCgFyh6ibtzOpIyl4nImaGfyM&quot;; // for Dev API key alone needed
+KeyStore mtlsKeyStore = null; 		// for Dev this should be null
+char[] mtlsPassword = null; 			// for Dev this should be null
+
+String pfxfile_name = &quot;\\\ECM-Test-App02.pfx&quot;;
+String tifffile_name = &quot;\\\JMeterTestTiff.tiff&quot;;
+String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
+
+
+//pfx file current location     
+String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
+String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+String pfx_filepath = testPlanFileDir + pfxfile_name;
+//log.info(pfx_filepath);
+
+//Tiff file current location
+String tiff_filepath = testPlanFileDir + tifffile_name;
+//log.info(tiff_filepath);
+
+//Load file
+File privateCert = new File(pfx_filepath);
+//log.info(&quot;privateCert: &quot;+privateCert.exists());
+
+char[] payloadEncryptionPassword = payloadEncry_Pass.toCharArray();
+//log.info(&quot;payloadEncryptionPassword: &quot;+payloadEncryptionPassword);
+
+InputStream keyStoreStream = new FileInputStream(privateCert);
+KeyStore payloadEncryptionKeyStore = KeyStore.getInstance(&quot;PKCS12&quot;); // &quot;PKCS12&quot; or &quot;JKS&quot;
+payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
+
+//Pass ECM document Management API
+ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
+
+//Document Download
+//Document document = new ECMDocument();
+//
+//document = api.downloadDocument(&quot;${id}&quot;);
+//log.info(&quot;Document Id: &quot; + document.getId());
+//document.getFields();
+//document.getBytes();
+
+//Document Download
+Document document = new ECMDocument();
+
+Date date = new Date();
+String pattern = &quot;yyyyMMddHHmmssSSS&quot;;
+SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+String DateFormat = simpleDateFormat.format(date);
+log.info(&quot;Date Format: &quot; + DateFormat);
+
+String Fname = &quot;\\\&quot;;
+String fileName = testPlanFileDir + Fname + &quot;Download&quot; + Fname + DateFormat + &quot;-&quot; + &quot;${id}&quot; + &quot;.tiff&quot;;  //Unique file name
+    
+byte[] bytesOfDownloadedFile = api.downloadDocument(&quot;${id}&quot;).getBytes(); //download
+File outputFile =  new File(fileName); //create path to write file to
+FileOutputStream fos = new FileOutputStream(outputFile); //write byte [] to file path
+fos.write(bytesOfDownloadedFile);
+fos.close();
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="ResponseDelay" enabled="true">
+            <stringProp name="TestPlan.comments">Delay for response</stringProp>
+            <stringProp name="ConstantTimer.delay">${thinktime}</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="TestPlan.comments">Verify content in response</stringProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
             <stringProp name="Assertion.scope">all</stringProp>
