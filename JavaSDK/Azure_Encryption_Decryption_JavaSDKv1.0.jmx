@@ -15,11 +15,11 @@
           </elementProp>
         </collectionProp>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath">D:\Loadtest_Script_Development\API_Services\lib\ecm-document-java-sdk-1.0.7.jar,D:\Loadtest_Script_Development\API_Services\lib\ecm-az-mastercard-payload-encryption-1.0.7.jar,D:\Loadtest_Script_Development\API_Services\lib\gson-2.8.8.jar,D:\Loadtest_Script_Development\API_Services\lib\httpclient5-5.1.3.jar</stringProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="eDocs-Form" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -71,7 +71,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -90,8 +90,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -337,7 +336,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -356,8 +355,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -440,7 +438,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -459,8 +457,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -557,7 +554,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -579,8 +576,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -665,7 +661,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -687,8 +683,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -773,7 +768,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -795,8 +790,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -881,7 +875,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -903,8 +897,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -989,7 +982,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -1011,8 +1004,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -1060,7 +1052,7 @@ results[0].getFields();
         </hashTree>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="eDocs-Agreement" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -1114,7 +1106,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -1133,8 +1125,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -1352,7 +1343,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -1371,8 +1362,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -1455,7 +1445,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -1474,8 +1464,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -1570,7 +1559,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -1592,8 +1581,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -1678,7 +1666,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -1700,8 +1688,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -1786,7 +1773,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -1808,8 +1795,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -1857,7 +1843,7 @@ results[0].getFields();
         </hashTree>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Merchandising-AuctionCorrespondance" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -1909,7 +1895,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -1927,8 +1913,7 @@ String tifffile_name = &quot;\\JMeterTestTiff.tiff&quot;;
 String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 //pfx file location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -2101,7 +2086,7 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_Metadata" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_Metadata" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2140,7 +2125,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -2159,8 +2144,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -2205,7 +2189,7 @@ document.getFields();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_download" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_download" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2244,7 +2228,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -2263,8 +2247,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -2320,7 +2303,7 @@ fos.close();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_SearchStockNumber" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_SearchStockNumber" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2359,7 +2342,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -2378,8 +2361,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -2422,7 +2404,7 @@ results[0].getFields();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_SearchDMSImageIdAndStoreNumber" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_SearchDMSImageIdAndStoreNumber" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2461,7 +2443,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -2480,8 +2462,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -2524,7 +2505,7 @@ results[0].getFields();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_SearchVehicleIdentificationNumber" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_SearchVehicleIdentificationNumber" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2563,7 +2544,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -2582,8 +2563,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -2625,7 +2605,7 @@ results[0].getFields();</stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_SearchOrderNumberAndStoreNumber" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_auctioncorrespondance_SearchOrderNumberAndStoreNumber" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2664,7 +2644,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -2683,8 +2663,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -2730,7 +2709,7 @@ results[0].getFields();
         </hashTree>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Merchandising-B2B" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -2782,7 +2761,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -2801,8 +2780,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -2950,7 +2928,7 @@ document.getFields();
           </BoundaryExtractor>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_Metadata" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_Metadata" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -2989,7 +2967,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -3008,8 +2986,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -3054,7 +3031,7 @@ document.getFields();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_Download" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_Download" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -3093,7 +3070,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -3112,8 +3089,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -3177,7 +3153,7 @@ fos.close();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchDealerId" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchDealerId" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -3216,7 +3192,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -3235,8 +3211,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -3279,7 +3254,7 @@ results[0].getFields();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchDealerIdentifier" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchDealerIdentifier" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -3318,7 +3293,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -3337,8 +3312,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -3381,7 +3355,7 @@ results[0].getFields();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchRepresentativeName" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchRepresentativeName" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -3420,7 +3394,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -3439,8 +3413,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -3483,7 +3456,7 @@ results[0].getFields();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchRepresentativeNameAndDocumentType" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchRepresentativeNameAndDocumentType" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -3522,7 +3495,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -3541,8 +3514,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -3585,7 +3557,7 @@ results[0].getFields();
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchDocumentType" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Merch_B2B_WRSDocuments_SearchDocumentType" enabled="false">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
@@ -3624,7 +3596,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -3643,8 +3615,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -3689,7 +3660,7 @@ results[0].getFields();
         </hashTree>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="CAF-Statements" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -3741,7 +3712,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -3760,8 +3731,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -3932,7 +3902,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -3951,8 +3921,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -4035,7 +4004,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -4054,8 +4023,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -4158,7 +4126,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -4177,8 +4145,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -4262,7 +4229,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -4281,8 +4248,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -4365,7 +4331,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -4384,8 +4350,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -4478,7 +4443,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -4497,8 +4462,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -4554,7 +4518,7 @@ results[0].getFields();
         </hashTree>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Serviceoperations-Servicejacket" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -4606,7 +4570,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -4625,8 +4589,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -4825,7 +4788,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -4844,8 +4807,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -4929,7 +4891,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -4948,8 +4910,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -5052,7 +5013,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -5071,8 +5032,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -5154,7 +5114,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -5173,8 +5133,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -5256,7 +5215,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -5275,8 +5234,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -5358,7 +5316,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -5377,8 +5335,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -5412,7 +5369,6 @@ Long endDateRange= Time+diffTime;
 
 // Search Store Number
 Document[] document = new ECMDocument();
-
 Document[] results = api.searchStoreNumber(&quot;serviceoperations&quot;, &quot;servicejacket&quot;, ${storeNumber}, new java.util.Date(startDateRange), new java.util.Date(endDateRange));
 results[0].getFields();
 </stringProp>
@@ -5471,7 +5427,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -5490,8 +5446,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -5514,9 +5469,9 @@ payloadEncryptionKeyStore.load(keyStoreStream, payloadEncryptionPassword);
 ECMDocumentManagementAPI api = new ECMDocumentManagementAPI(baseUrl, apikey, mtlsKeyStore, mtlsPassword, payloadEncryptionKeyStore, payloadEncryptionPassword);
 
 // Search VIN
-log.info(&quot;vehicleIdentificationNumber: &quot; + &quot;${vehicleIdentificationNumber}&quot;);
-//Document[] document = new ECMDocument(); // Not Required
-Document[] results = api.searchVehicleIdentificationNumber(&quot;serviceoperations&quot;, &quot;servicejacket&quot;, &quot;${vehicleIdentificationNumber}&quot;, null, null);
+//log.info(&quot;vehicleIdentificationNumber: &quot; + &quot;${vehicleIdentificationNumber}&quot;);
+//Document[] document = new ECMDocument(); // Not required
+Document[] results = api.searchVehicleIdentificationNumber(&quot;serviceoperations&quot;, &quot;servicejacket&quot;, &quot;1D7RV1GT4BS574533&quot;, null, null);
 results[0].getFields();
 </stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
@@ -5537,7 +5492,7 @@ results[0].getFields();
         </hashTree>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Serviceoperations-APServiceJacket" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -5589,7 +5544,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -5608,8 +5563,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -5830,7 +5784,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -5849,8 +5803,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -5934,7 +5887,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -5953,8 +5906,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -6057,7 +6009,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -6076,8 +6028,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -6158,7 +6109,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -6177,8 +6128,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -6259,7 +6209,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -6278,8 +6228,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -6360,7 +6309,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -6379,8 +6328,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -6461,7 +6409,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -6480,8 +6428,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -6572,7 +6519,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -6591,8 +6538,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -6638,7 +6584,7 @@ results[0].getFields();
         </hashTree>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Serviceoperations-APServiceCorporateJacket" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -6690,7 +6636,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -6709,8 +6655,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -6920,7 +6865,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -6939,8 +6884,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -7024,7 +6968,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -7043,8 +6987,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -7147,7 +7090,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -7166,8 +7109,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -7248,7 +7190,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -7267,8 +7209,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -7349,7 +7290,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -7368,8 +7309,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -7450,7 +7390,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -7469,8 +7409,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
@@ -7551,7 +7490,7 @@ import com.carmax.ecm.client.ECMDocumentManagementAPI;
 import com.carmax.ecm.client.model.Document;
 import com.carmax.ecm.client.model.ECMDocument;
 import com.carmax.ecm.client.utils.Utils;
-import org.apache.jmeter.gui.GuiPackage;
+import org.apache.jmeter.services.FileServer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FileUtils;
 import java.util.Random;
@@ -7570,8 +7509,7 @@ String payloadEncry_Pass = &quot;C@rmax-3lddlf2kdm20d2amdgf03&quot;;
 
 
 //pfx file current location     
-String testPlanFile = GuiPackage.getInstance().getTestPlanFile();
-String testPlanFileDir = FilenameUtils.getFullPathNoEndSeparator(testPlanFile);
+def testPlanFileDir = FileServer.getFileServer().getBaseDir();
 String pfx_filepath = testPlanFileDir + pfxfile_name;
 //log.info(pfx_filepath);
 
